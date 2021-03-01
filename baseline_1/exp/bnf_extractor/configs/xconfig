@@ -1,0 +1,20 @@
+# This file was created by the command:
+# steps/nnet3/xconfig_to_configs.py --xconfig-file exp/bnf_extractor/configs/network.xconfig --config-dir exp/bnf_extractor/configs/
+# It is a copy of the source from which the config files in # this directory were generated.
+
+input dim=30 name=input
+
+# please note that it is important to have input layer with the name=input
+# as the layer immediately preceding the fixed-affine-layer to enable
+# the use of short notation for the descriptor
+fixed-affine-layer name=lda input=Append(-2,-1,0,1,2) affine-transform-file=exp/bnf_extractor/configs/lda.mat
+
+# the first splicing is moved before the lda layer, so no splicing here
+relu-batchnorm-layer name=tdnn1 dim=850
+relu-batchnorm-layer name=tdnn2 dim=850 input=Append(-1,0,2)
+relu-batchnorm-layer name=tdnn3 dim=850 input=Append(-3,0,3)
+relu-batchnorm-layer name=tdnn4 dim=850 input=Append(-7,0,2)
+relu-batchnorm-layer name=tdnn5 dim=850 input=Append(-3,0,3)
+affine-layer name=bnf dim=50 input=tdnn5
+relu-batchnorm-layer name=tdnn6 dim=850 input=bnf
+output-layer name=output input=tdnn6 dim=7936 max-change=1.5

@@ -1,0 +1,16 @@
+# This file was created by the command:
+# steps/nnet3/xconfig_to_configs.py --xconfig-file exp/bnf_extractor/configs/network.xconfig --config-dir exp/bnf_extractor/configs/
+#It contains the same content as ./xconfig but it was parsed and
+#default config values were set.
+# See also ./xconfig.expanded.2
+
+input name=input dim=30
+fixed-affine-layer name=lda affine-transform-file=exp/bnf_extractor/configs/lda.mat delay=0 dim=150 input=Append(-2,-1,0,1,2) write-init-config=True
+relu-batchnorm-layer name=tdnn1 add-log-stddev=False bias-stddev= bottleneck-dim=-1 dim=850 dropout-per-dim=False dropout-per-dim-continuous=False dropout-proportion=0.5 input=[-1] l2-regularize= learning-rate-factor= max-change=0.75 ng-affine-options= ng-linear-options= self-repair-scale=1e-05 target-rms=1.0
+relu-batchnorm-layer name=tdnn2 add-log-stddev=False bias-stddev= bottleneck-dim=-1 dim=850 dropout-per-dim=False dropout-per-dim-continuous=False dropout-proportion=0.5 input=Append(-1,0,2) l2-regularize= learning-rate-factor= max-change=0.75 ng-affine-options= ng-linear-options= self-repair-scale=1e-05 target-rms=1.0
+relu-batchnorm-layer name=tdnn3 add-log-stddev=False bias-stddev= bottleneck-dim=-1 dim=850 dropout-per-dim=False dropout-per-dim-continuous=False dropout-proportion=0.5 input=Append(-3,0,3) l2-regularize= learning-rate-factor= max-change=0.75 ng-affine-options= ng-linear-options= self-repair-scale=1e-05 target-rms=1.0
+relu-batchnorm-layer name=tdnn4 add-log-stddev=False bias-stddev= bottleneck-dim=-1 dim=850 dropout-per-dim=False dropout-per-dim-continuous=False dropout-proportion=0.5 input=Append(-7,0,2) l2-regularize= learning-rate-factor= max-change=0.75 ng-affine-options= ng-linear-options= self-repair-scale=1e-05 target-rms=1.0
+relu-batchnorm-layer name=tdnn5 add-log-stddev=False bias-stddev= bottleneck-dim=-1 dim=850 dropout-per-dim=False dropout-per-dim-continuous=False dropout-proportion=0.5 input=Append(-3,0,3) l2-regularize= learning-rate-factor= max-change=0.75 ng-affine-options= ng-linear-options= self-repair-scale=1e-05 target-rms=1.0
+affine-layer name=bnf bias-mean=0.0 bias-stddev=1.0 dim=50 input=tdnn5 l2-regularize=0.0 learning-rate-factor=1.0 max-change=0.75 ng-affine-options= param-stddev=0.03429971702850177
+relu-batchnorm-layer name=tdnn6 add-log-stddev=False bias-stddev= bottleneck-dim=-1 dim=850 dropout-per-dim=False dropout-per-dim-continuous=False dropout-proportion=0.5 input=bnf l2-regularize= learning-rate-factor= max-change=0.75 ng-affine-options= ng-linear-options= self-repair-scale=1e-05 target-rms=1.0
+output-layer name=output bias-stddev=0.0 bottleneck-dim=-1 dim=7936 include-log-softmax=True input=tdnn6 l2-regularize= learning-rate-factor= max-change=1.5 ng-affine-options= ng-linear-options= objective-type=linear orthonormal-constraint=1.0 output-delay=0 param-stddev=0.0
