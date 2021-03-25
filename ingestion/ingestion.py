@@ -116,18 +116,18 @@ def _init_python_path(args):
 
 def _init_timer(PREDICT_TIME_BUDGET):
     timer = Timer()
-    timer.add_process('initialize.sh', INIT_TIME_BUDGET, timing.RESET)
+    timer.add_process('initialize.sh', INIT_TIME_BUDGET, timing.CUM)
     LOGGER.debug(
         f"init time budget of initialize.sh: {INIT_TIME_BUDGET} "
-        f"mode: {timing.RESET}")
-    timer.add_process('enrollment.sh', ENROLL_TIME_BUDGET, timing.RESET)
+        f"mode: {timing.CUM}")
+    timer.add_process('enrollment.sh', ENROLL_TIME_BUDGET, timing.CUM)
     LOGGER.debug(
         f"init time budget of enrollment.sh: {ENROLL_TIME_BUDGET} "
-        f"mode: {timing.RESET}")
-    timer.add_process('predict.sh', PREDICT_TIME_BUDGET, timing.RESET)
+        f"mode: {timing.CUM}")
+    timer.add_process('predict.sh', PREDICT_TIME_BUDGET, timing.CUM)
     LOGGER.debug(
         f"init time budget of predict.sh: {PREDICT_TIME_BUDGET} "
-        f"mode: {timing.RESET}")
+        f"mode: {timing.CUM}")
     return timer
 
 def run_command(com,timer):
